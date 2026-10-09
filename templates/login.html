@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block title %}Log in · BookNest{% endblock %}{% block content %}
+<h1>Log in</h1>
+<form class="form" method="post">
+  <label>Email<input type="email" name="email" required></label>
+  <label>Password<input type="password" name="password" required></label>
+  <button class="btn">Log in</button>
+  <p class="muted small">New here? <a href="{{ url_for('register') }}">Create an account</a></p>
+</form>
+{% endblock %}

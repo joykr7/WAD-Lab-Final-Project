@@ -1,0 +1,21 @@
+{% extends "base.html" %}{% block title %}Admin · BookNest{% endblock %}{% block content %}
+<h1>Admin panel</h1>
+<p class="stats"><b>{{ users|length }}</b> users &nbsp; <b>{{ books|length }}</b> books &nbsp; <b>{{ pending }}</b> pending requests</p>
+<div class="two">
+  <section><h2>Books by category</h2>
+    {% for c in cats %}<div class="bars"><span>{{ c.category }}</span><i style="width:{{ (c.n / maxn * 100)|round }}%"></i><b>{{ c.n }}</b></div>{% endfor %}</section>
+  <section><h2>Top lenders</h2>
+    {% for l in lenders %}<div class="bars"><span>{{ l.name }}</span><i style="width:{{ l.n * 40 }}px"></i><b>{{ l.n }}</b></div>
+    {% else %}<p class="empty">No completed loans yet.</p>{% endfor %}</section>
+</div>
+<h2>Users</h2>
+<div class="scroll"><table><tr><th>Name</th><th>Email</th><th>Role</th><th>Books</th><th></th></tr>
+{% for u in users %}<tr><td>{{ u.name }}</td><td>{{ u.email }}</td><td><span class="tag {{ 'approved' if u.role == 'admin' else 'returned' }}">{{ u.role }}</span></td><td>{{ u.nb }}</td>
+<td class="acts">{% if u.id != g.user.id %}
+  <form method="post" action="{{ url_for('admin_user', uid=u.id, action='role') }}"><button class="btn sm ghost">{{ 'Make member' if u.role == 'admin' else 'Make admin' }}</button></form>
+  <form method="post" action="{{ url_for('admin_user', uid=u.id, action='delete') }}" onsubmit="return confirm('Delete this user and their books?')"><button class="btn sm danger">Delete</button></form>{% endif %}</td></tr>{% endfor %}</table></div>
+<h2>All books</h2>
+<div class="scroll"><table><tr><th>Title</th><th>Owner</th><th>Status</th><th></th></tr>
+{% for b in books %}<tr><td><a href="{{ url_for('book', bid=b.id) }}">{{ b.title }}</a></td><td>{{ b.owner }}</td><td>{{ 'Available' if b.available else 'On loan' }}</td>
+<td class="acts"><form method="post" action="{{ url_for('book_delete', bid=b.id) }}" onsubmit="return confirm('Delete this book?')"><button class="btn sm danger">Delete</button></form></td></tr>{% endfor %}</table></div>
+{% endblock %}

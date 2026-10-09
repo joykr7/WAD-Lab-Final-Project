@@ -1,0 +1,5 @@
+<a class="card" href="{{ url_for('book', bid=b.id) }}" style="--c:{{ color(b.title) }}">
+  <h3>{{ b.title }}</h3><p class="muted">{{ b.author }}</p>
+  <p class="meta"><span class="tag {{ 'ok' if b.available else 'out' }}">{{ 'Available' if b.available else 'On loan' }}</span> {{ b.category }}</p>
+  <p class="muted small">{{ b.owner }}{% if b.city %}, {{ b.city }}{% endif %}</p>
+</a>

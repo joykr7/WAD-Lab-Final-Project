@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block content %}
+<h1>{{ 'Edit book' if b else 'Add a book' }}</h1>
+<form class="form" method="post">
+  <label>Title<input name="title" required value="{{ b.title if b }}"></label>
+  <label>Author<input name="author" required value="{{ b.author if b }}"></label>
+  <div class="row">
+    <label>Category<select name="category">{% for c in CATS %}<option {{ 'selected' if b and b.category == c }}>{{ c }}</option>{% endfor %}</select></label>
+    <label>Condition<select name="cond">{% for c in ['Like new', 'Good', 'Fair', 'Well loved'] %}<option {{ 'selected' if b and b.cond == c }}>{{ c }}</option>{% endfor %}</select></label>
+  </div>
+  <label>Notes for borrowers<textarea name="description" rows="4">{{ b.description if b }}</textarea></label>
+  <button class="btn">{{ 'Save changes' if b else 'Add book' }}</button>
+</form>
+{% endblock %}

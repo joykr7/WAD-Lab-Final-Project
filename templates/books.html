@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block title %}Browse books · BookNest{% endblock %}{% block content %}
+<h1>Browse books</h1>
+<form class="filters" method="get">
+  <input name="q" value="{{ term }}" placeholder="Search title or author">
+  <select name="cat"><option value="">All categories</option>{% for c in CATS %}<option {{ 'selected' if c == cat }}>{{ c }}</option>{% endfor %}</select>
+  <label class="check"><input type="checkbox" name="avail" value="1" {{ 'checked' if only }}> Available only</label>
+  <button class="btn">Search</button>
+</form>
+{% if books %}<div class="grid">{% for b in books %}{% include "_card.html" %}{% endfor %}</div>
+{% else %}<p class="empty">No books match that search. Try a shorter title or clear the filters.</p>{% endif %}
+{% endblock %}

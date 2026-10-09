@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% block content %}
+<section class="hero">
+  <h1>Books sit still.<br>Pass them on.</h1>
+  <p class="lead">BookNest lets neighbours lend and borrow books from each other's shelves. List what you've finished, ask for what you want to read next.</p>
+  <p><a class="btn" href="{{ url_for('books') }}">Browse the shelf</a> {% if not g.user %}<a class="btn ghost" href="{{ url_for('register') }}">Share your books</a>{% endif %}</p>
+</section>
+<div class="shelf" aria-label="Latest books">
+  {% for b in books %}<a class="spine" href="{{ url_for('book', bid=b.id) }}" title="{{ b.title }} by {{ b.author }}"
+     style="background:{{ color(b.title) }};height:{{ 150 + (b.title|length * 7) % 70 }}px">{{ b.title }}</a>{% endfor %}
+</div>
+<p class="stats"><b>{{ stats.books }}</b> books &nbsp; <b>{{ stats.members }}</b> members &nbsp; <b>{{ stats.loans }}</b> loans made</p>
+<h2>Just added</h2>
+<div class="grid">{% for b in books[:6] %}{% include "_card.html" %}{% endfor %}</div>
+<h2>How it works</h2>
+<ol class="steps"><li>Create a free account and add books you're happy to lend.</li><li>Find a book and send the owner a request.</li><li>The owner approves, you meet up, and they mark it returned when it's back.</li></ol>
+{% endblock %}

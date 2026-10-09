@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block title %}Profile · BookNest{% endblock %}{% block content %}
+<h1>Your profile</h1>
+<form class="form" method="post">
+  <label>Name<input name="name" required value="{{ g.user.name }}"></label>
+  <label>Email<input value="{{ g.user.email }}" disabled></label>
+  <label>City<input name="city" value="{{ g.user.city }}"></label>
+  <label>About you<textarea name="bio" rows="3">{{ g.user.bio }}</textarea></label>
+  <label>New password<input type="password" name="password" placeholder="Leave blank to keep current"></label>
+  <button class="btn">Save profile</button>
+</form>
+{% endblock %}

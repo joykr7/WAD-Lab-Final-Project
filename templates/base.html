@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}BookNest{% endblock %}</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+<header class="top"><a class="brand" href="{{ url_for('home') }}"><span class="logo"><i></i><i></i><i></i></span>BookNest</a>
+<nav>
+  <a href="{{ url_for('books') }}">Browse books</a>
+  {% if g.user %}
+    <a href="{{ url_for('dashboard') }}">My shelf</a>
+    {% if g.user.role == 'admin' %}<a href="{{ url_for('admin') }}">Admin</a>{% endif %}
+    <a href="{{ url_for('profile') }}">{{ g.user.name.split()[0] }}</a>
+    <a href="{{ url_for('logout') }}">Log out</a>
+  {% else %}
+    <a href="{{ url_for('login') }}">Log in</a><a class="btn sm" href="{{ url_for('register') }}">Join free</a>
+  {% endif %}
+</nav></header>
+<main>
+{% for cat, msg in get_flashed_messages(with_categories=true) %}<p class="flash {{ cat }}">{{ msg }}</p>{% endfor %}
+{% block content %}{% endblock %}
+</main>
+<footer>BookNest · a community book exchange · Web Application Development Lab project</footer>
+</body></html>

@@ -1,0 +1,18 @@
+{% extends "base.html" %}{% block title %}{{ b.title }} · BookNest{% endblock %}{% block content %}
+<article class="detail" style="--c:{{ color(b.title) }}">
+  <div class="cover"><span>{{ b.title }}</span></div>
+  <div>
+    <h1>{{ b.title }}</h1><p class="lead">by {{ b.author }}</p>
+    <p class="meta"><span class="tag {{ 'ok' if b.available else 'out' }}">{{ 'Available' if b.available else 'On loan' }}</span> {{ b.category }} · Condition: {{ b.cond }}</p>
+    <p>{{ b.description or 'No description yet.' }}</p>
+    <p class="muted">Shared by {{ b.owner }}{% if b.city %} in {{ b.city }}{% endif %}</p>
+    {% if not g.user %}<a class="btn" href="{{ url_for('login', next=request.path) }}">Log in to request</a>
+    {% elif g.user.id == b.owner_id or g.user.role == 'admin' %}
+      <a class="btn ghost" href="{{ url_for('book_edit', bid=b.id) }}">Edit book</a>
+      <form class="inline" method="post" action="{{ url_for('book_delete', bid=b.id) }}" onsubmit="return confirm('Delete this book?')"><button class="btn danger">Delete</button></form>
+    {% elif mine %}<p class="tag {{ mine.status }}">Your request is {{ mine.status }}</p>
+    {% elif b.available %}<form method="post" action="{{ url_for('request_book', bid=b.id) }}"><button class="btn">Request this book</button></form>
+    {% else %}<p class="muted">Someone is reading this one. Check back soon.</p>{% endif %}
+  </div>
+</article>
+{% endblock %}
