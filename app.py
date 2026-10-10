@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.secret_key = "change-this-secret-before-deploying"
-DB = os.path.join(os.path.dirname(os.path.abspath(__file__)), "booknest.db")
+DB = "/tmp/booknest.db" if os.environ.get("VERCEL") else os.path.join(os.path.dirname(os.path.abspath(__file__)), "booknest.db")
 CATS = ["Fiction", "Non-fiction", "Science", "Technology", "History", "Self-help", "Kids", "Other"]
 COLORS = ["#2F6F62", "#14213D", "#7A5C9E", "#3D6A9E", "#B5475B", "#8A6A00"]
 app.jinja_env.globals.update(CATS=CATS, color=lambda t: COLORS[sum(map(ord, t)) % len(COLORS)])
